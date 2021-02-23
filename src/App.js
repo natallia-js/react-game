@@ -1,22 +1,58 @@
+import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Game } from '../src/components/Game';
 
 function App() {
+  const [isFullScreen, SetIsFullScreen] = useState(false);
+
+  function fullScreen(element) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitrequestFullscreen) { /* Safari */
+      element.webkitRequestFullscreen();
+    } else if (element.mozRequestFullscreen) { /* IE11 */
+      element.mozRequestFullScreen();
+    }
+  }
+
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  }
+
+  function setFullScreen() {
+    if (!isFullScreen) {
+      // полноэкранный режим для всей страницы
+      var html = document.documentElement;
+      fullScreen(html);
+      SetIsFullScreen(true);
+    } else {
+      closeFullscreen();
+      SetIsFullScreen(false);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="Game-title-block">
+          <div className="game-logo">
+            <img src={logo} className="App-logo" alt="logo" />
+          </div>
+          <div className="game-title">
+            Rock, Scissors, Paper
+          </div>
+        </div>
+        <Game />
+        <div>
+          <button onClick={setFullScreen}>{!isFullScreen ? 'Full Screen' : 'Exit Full Screen'}</button>
+        </div>
       </header>
     </div>
   );
