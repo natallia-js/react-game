@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Game } from '../src/components/Game';
 
 function App() {
   const [isFullScreen, SetIsFullScreen] = useState(false);
+
+  useEffect(() => {
+    document.addEventListener('fullscreenchange', (event) => {
+      if (document.fullscreenElement) {
+        SetIsFullScreen(true);
+      } else {
+        SetIsFullScreen(false);
+      }
+    });
+  }, []);
 
   function fullScreen(element) {
     if (element.requestFullscreen) {
@@ -31,10 +41,8 @@ function App() {
       // полноэкранный режим для всей страницы
       var html = document.documentElement;
       fullScreen(html);
-      SetIsFullScreen(true);
     } else {
       closeFullscreen();
-      SetIsFullScreen(false);
     }
   }
 
