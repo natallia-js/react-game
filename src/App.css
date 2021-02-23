@@ -1,15 +1,10 @@
 .App {
-  display: table-cell;
-  vertical-align: middle;
   text-align: center;
-  min-height: 100vh;
-  min-width: 100vw;
 }
 
 .App-logo {
-  height: 10vmin;
+  height: 40vmin;
   pointer-events: none;
-  display: inline;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -26,7 +21,11 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgb(211, 202, 202);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -36,21 +35,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.Game-title-block {
-  display: table;
-  color: #61dafb;
-  border: 1px solid green;
-}
-
-.game-logo {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.game-title {
-  display: table-cell;
-  vertical-align: middle;
-  border: 1px solid green;
 }
