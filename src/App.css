@@ -41,7 +41,6 @@
 .Game-title-block {
   display: table;
   color: #61dafb;
-  border: 1px solid green;
 }
 
 .game-logo {
@@ -52,5 +51,4 @@
 .game-title {
   display: table-cell;
   vertical-align: middle;
-  border: 1px solid green;
 }

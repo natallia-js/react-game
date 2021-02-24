@@ -5,6 +5,10 @@
   height: 80px;
 }
 
+.game-choice-btn:hover {
+  cursor: pointer;
+}
+
 .rock-btn {
   background: url('../../assets/images/rock.png') no-repeat center;
   background-size: auto 80px;

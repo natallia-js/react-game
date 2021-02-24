@@ -48,8 +48,8 @@ export const GameChoiceBtn = (props) => {
       onClick={() => {
         if (!isBlocked) {
           btnClicked();
-        }
-      }}
+        }}
+      }
     >
     </button>
   );

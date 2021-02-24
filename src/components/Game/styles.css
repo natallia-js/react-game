@@ -3,11 +3,10 @@
   flex-direction: column;
   width: auto;
   height: auto;
-  border: 1px solid blue;
 }
 
 .score-area {
-  border: 1px solid yellow;
+  border: 2px solid white;
   padding: 10px 0;
 }
 
@@ -16,11 +15,13 @@
   flex-direction: row;
   width: auto;
   height: auto;
-  border: 1px solid magenta;
+  border: 2px solid white;
+  padding: 5px;
 }
 
 .game-btns-area {
   border: 1px solid white;
   display: table-cell;
   vertical-align: middle;
+  border: 2px solid white;
 }

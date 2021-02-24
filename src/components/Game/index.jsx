@@ -13,6 +13,7 @@ export const Game = () => {
   const [firstPlayerTurn, SetFirstPlayerTurn] = useState(true);
   const [firstUserChoice, SetFirstUserChoice] = useState(null);
   const [secondUserChoice, SetSecondUserChoice] = useState(null);
+  const [startMakingComputerChoice, setStartMakingComputerChoice] = useState(false);
 
 
   const resetGame = () => {
@@ -26,7 +27,7 @@ export const Game = () => {
   }
 
 
-  useEffect(() => { console.log('fir us ch')
+  useEffect(() => {
     // Если первый игрок сделал свой выбор,...
     if (firstUserChoice !== null) {
       // ...передаем очередь хода второму игроку
@@ -35,7 +36,16 @@ export const Game = () => {
   }, [firstUserChoice]);
 
 
-  useEffect(() => { console.log('sec us ch')
+  useEffect(() => {
+    // Если очередь ходить второму игроку (а это комп), ...
+    if (firstPlayerTurn === false) {
+      // ...тогда делаем за него выбор
+      setStartMakingComputerChoice(true);
+    }
+  }, [firstPlayerTurn]);
+
+
+  useEffect(() => {
     if (secondUserChoice !== null) {
       // Определяем победителя игры
       const determineWinner = () => {
@@ -53,6 +63,7 @@ export const Game = () => {
       determineWinner();
       // Завершаем очередной раунд игры
       SetRoundOver(true);
+      setStartMakingComputerChoice(false);
     }
     
   }, [secondUserChoice]);
@@ -73,6 +84,7 @@ export const Game = () => {
               SetFirstUserChoice(value);
             }}
             userChoice={firstUserChoice}
+            playsComputer={false}
           />
         </div>
         
@@ -83,6 +95,8 @@ export const Game = () => {
               SetSecondUserChoice(value);
             }}
             userChoice={secondUserChoice}
+            playsComputer={true}
+            startMakingComputerChoice={startMakingComputerChoice}
           />
         </div>
       
