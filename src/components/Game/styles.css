@@ -3,11 +3,14 @@
   flex-direction: column;
   width: auto;
   height: auto;
+  border: 2px solid #61dafb;
+  border-radius: 2rem;
 }
 
 .score-area {
-  border: 2px solid white;
+  border-bottom: 2px solid white;
   padding: 10px 0;
+  border-radius: 2rem;
 }
 
 .choice-btns-area {
@@ -15,13 +18,19 @@
   flex-direction: row;
   width: auto;
   height: auto;
-  border: 2px solid white;
   padding: 5px;
 }
 
 .game-btns-area {
-  border: 1px solid white;
+  border-top: 2px solid white;
+  border-radius: 2rem;
   display: table-cell;
   vertical-align: middle;
-  border: 2px solid white;
+}
+
+.prompts-block {
+  font-size: 0.8rem;
+  width: 350px;
+  word-wrap: break-word;
+  padding: 10px 0;
 }

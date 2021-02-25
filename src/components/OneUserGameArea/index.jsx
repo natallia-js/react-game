@@ -27,7 +27,9 @@ export const OneUserGameArea = (props) => {
     btnsAreaRef.current.addEventListener('click', checkIfUserCanClick);
     
     return () => {
-      btnsAreaRef.current.removeEventListener('click', checkIfUserCanClick);
+      if (btnsAreaRef.current) {
+        btnsAreaRef.current.removeEventListener('click', checkIfUserCanClick);
+      }
     }
   }, []);
 

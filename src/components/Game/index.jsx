@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { OneUserGameArea } from '../OneUserGameArea';
 import { BtnKinds } from '../GameChoiceBtn';
+import useSound from 'use-sound';
+
+import winGameSound from '../../assets/sounds/win.mp3';
+import drawGameSound from '../../assets/sounds/draw.mp3';
+import loseGameSound from '../../assets/sounds/lose.mp3';
 
 import './styles.css';
 
@@ -15,6 +20,9 @@ export const Game = () => {
   const [secondUserChoice, SetSecondUserChoice] = useState(null);
   const [startMakingComputerChoice, setStartMakingComputerChoice] = useState(false);
 
+  const [playWinGameSound] = useSound(winGameSound);
+  const [playDrawGameSound] = useSound(drawGameSound);
+  const [playLoseGameSound] = useSound(loseGameSound);
 
   const resetGame = () => {
     SetStarted(true);
@@ -50,14 +58,17 @@ export const Game = () => {
       // Определяем победителя игры
       const determineWinner = () => {
         if (firstUserChoice === secondUserChoice) {
+          playDrawGameSound();
           return;
         }
         if (((firstUserChoice === BtnKinds.rock) && (secondUserChoice === BtnKinds.scissors)) ||
             ((firstUserChoice === BtnKinds.scissors) && (secondUserChoice === BtnKinds.paper)) ||
             ((firstUserChoice === BtnKinds.paper) && (secondUserChoice === BtnKinds.rock))) {
           SetFirstPlayerScore(firstPlayerScore + 1);
+          playWinGameSound();
         } else {
           SetSecondPlayerScore(secondPlayerScore + 1);
+          playLoseGameSound();
         }
       };
       determineWinner();
@@ -78,6 +89,9 @@ export const Game = () => {
       <div className='choice-btns-area'>
         
         <div>
+          <div>
+            {started && firstPlayerTurn && 'Your choice:'}
+          </div>
           <OneUserGameArea
             userCanMakeChoice={started && !roundOver && firstPlayerTurn}
             setUserChoice={(value) => {
@@ -123,7 +137,14 @@ export const Game = () => {
           Continue
         </button>
      
+        <div className="prompts-block">
+          {!started && 'To start, press "New game" button'}
+          {started && !roundOver && 'Press "New game" to restart'}
+          {started && roundOver && 'Press "Continue" to continue or "New game" to restart'}
+        </div>
+
       </div>
+      
     </div>
   );
 };
