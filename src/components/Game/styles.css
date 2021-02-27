@@ -26,11 +26,90 @@
   border-radius: 2rem;
   display: table-cell;
   vertical-align: middle;
+  display: flex;
+  flex-direction: column;
 }
 
 .prompts-block {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   width: 350px;
   word-wrap: break-word;
   padding: 10px 0;
 }
+
+.no-sound-btn {
+  width: 30px;
+  height: 30px;  
+  background: url('../../assets/images/offSound.png') no-repeat center;
+  background-size: auto 20px;
+  margin-left: 10px;
+  background-color: #61dafb;
+}
+
+.sound-btn {
+  width: 30px;
+  height: 30px;  
+  background: url('../../assets/images/onSound.png') no-repeat center;
+  background-size: auto 20px;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 2rem;
+}
+
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.game-res {
+  font-size: 0.9rem;
+  width: 380px;
+}
+
+.curr-round {
+  font-size: 1rem;
+}
+
+.clear-res {
+  margin-bottom: 10px;
+}
+
+/* blink source: http://shpargalkablog.ru/2013/12/blink-text.html */
+
+#blink {
+  -webkit-animation: blink 3s linear infinite;
+  animation: blink 3s linear infinite;
+}
+@-webkit-keyframes blink {
+  0% { color: rgba(200, 200, 125, 1); }
+  50% { color: rgba(200, 200, 125, 0); }
+  100% { color: rgba(200, 200, 125, 1); }
+}
+@keyframes blink {
+  0% { color: rgba(200, 200, 125, 1); }
+  50% { color: rgba(200, 200, 125, 0); }
+  100% { color: rgba(200, 200, 125, 1); }
+}
+
+/******************************************************************/
