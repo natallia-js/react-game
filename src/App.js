@@ -59,14 +59,19 @@ function App() {
         </div>
         <Game />
         <div>
-          <button onClick={setFullScreen}>{!isFullScreen ? 'Full Screen' : 'Exit Full Screen'}</button>
+          <button
+            className="fill full-scr-btn"
+            onClick={setFullScreen}>{!isFullScreen ? 'Full Screen' : 'Exit Full Screen'}
+          </button>
         </div>
         <footer>
           <div>
             <img id="school-logo" src="https://rs.school/images/rs_school_js.svg" alt="RSSchool logo"></img>
-            <span>https://rs.school/react/</span>
-          </div>          
-          <span>2021, Github: https://github.com/natallia-js/react-game</span>
+          </div>
+          <div>
+            <span>https://rs.school/react/</span><br/>
+            <span>2021, Github: https://github.com/natallia-js/react-game</span>
+          </div>
         </footer>
       </header>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { OneUserGameArea } from '../OneUserGameArea';
 import { BtnKinds } from '../GameChoiceBtn';
 import useSound from 'use-sound';
@@ -8,27 +8,15 @@ import drawGameSound from '../../assets/sounds/draw.mp3';
 import loseGameSound from '../../assets/sounds/lose.mp3';
 
 import './styles.css';
+import './animate.min.css';
 
-const MAX_ROUNDS_PER_GAME = 2;
+import { saveInLocalStorage, getFromLocalStorage } from '../../additional/localStor';
+
+
+const classNames = require('classnames');
+
+const MAX_ROUNDS_PER_GAME = 10;
 const MAX_GAMES_LOG = 10;
-const LOCAL_STORAGE_NAME = 'My_RSP_Game';
-
-
-function saveInLocalStorage(obj) {
-  if (!obj) {
-    return;
-  }
-  const localStorageData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME));
-  localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify({
-    ...localStorageData,
-    ...obj,
-  }));
-}
-
-
-function getFromLocalStorage() {
-  return JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME));
-}
 
 
 export const Game = () => {
@@ -136,17 +124,29 @@ export const Game = () => {
     if (data && data.hasOwnProperty('currRound')) {
       return { data: data.currRound, fromLocStor: true };
     } else {
-      saveInLocalStorage({ currRound: 0 });
-      return { data: 0, fromLocStor: false };
+      saveInLocalStorage({ currRound: 1 });
+      return { data: 1, fromLocStor: false };
     }
   });
-
+  const [lostPlayer, SetLostPlayer] = useState(() => {
+    const data = getFromLocalStorage();
+    if (data && data.hasOwnProperty('lostPlayer')) {
+      return { data: data.lostPlayer, fromLocStor: true };
+    } else {
+      saveInLocalStorage({ lostPlayer: 0 });
+      return { data: 0, fromLocStor: false };
+    }
+  })
 
   const [playWinGameSound] = useSound(winGameSound, { volume: soundVolume.data });
   const [playDrawGameSound] = useSound(drawGameSound, { volume: soundVolume.data });
   const [playLoseGameSound] = useSound(loseGameSound, { volume: soundVolume.data });
 
-  const resetGame = () => {
+  const newGameBtnRef = useRef();
+  const continueBtnRef = useRef();
+
+
+  function resetGame() {
     SetStarted({ data: true, fromLocStor: false });
     SetRoundOver({ data: false, fromLocStor: false });
     SetFirstPlayerScore({ data: 0, fromLocStor: false });
@@ -155,7 +155,35 @@ export const Game = () => {
     SetFirstUserChoice({ data: null, fromLocStor: false });
     SetSecondUserChoice({ data: null, fromLocStor: false });
     SetCurrRound({ data: 1, fromLocStor: false });
+    SetLostPlayer({ data: 0, fromLocStor: false });
   }
+
+
+  function continueGame() {
+    SetFirstUserChoice({ data: null, fromLocStor: false });
+    SetSecondUserChoice({ data: null, fromLocStor: false });
+    SetRoundOver({ data: false, fromLocStor: false });
+    SetFirstPlayerTurn({ data: true, fromLocStor: false });
+    SetCurrRound({ data: currRound.data + 1, fromLocStor: false });
+    SetLostPlayer({ data: 0, fromLocStor: false });
+  }
+
+
+  useEffect(() => {
+    function onKeyPress(event) {
+      if (event.key === 'n') {
+        newGameBtnRef.current.click();
+      } else if (event.key === 'c') {
+        continueBtnRef.current.click();
+      }
+    }
+
+    window.addEventListener('keydown', onKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyPress);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -193,7 +221,7 @@ export const Game = () => {
     saveInLocalStorage({ secondUserChoice: secondUserChoice.data });
 
     if (secondUserChoice.data !== null) {
-      // Определяем победителя игры
+      // Определяем победителя раунда
       const determineWinner = () => {
         if (firstUserChoice.data === secondUserChoice.data) {
           if (useSounds.data) {
@@ -205,11 +233,13 @@ export const Game = () => {
             ((firstUserChoice.data === BtnKinds.scissors) && (secondUserChoice.data === BtnKinds.paper)) ||
             ((firstUserChoice.data === BtnKinds.paper) && (secondUserChoice.data === BtnKinds.rock))) {
           SetFirstPlayerScore({ data: firstPlayerScore.data + 1, fromLocStor: false });
+          SetLostPlayer({ data: 2, fromLocStor: false });
           if (useSounds.data) {
             playWinGameSound();
           }
         } else {
           SetSecondPlayerScore({ data: secondPlayerScore.data + 1, fromLocStor: false });
+          SetLostPlayer({ data: 1, fromLocStor: false });
           if (useSounds.data) {
             playLoseGameSound();
           }
@@ -220,18 +250,6 @@ export const Game = () => {
       // Завершаем очередной раунд игры
       SetRoundOver({ data: true, fromLocStor: false });
       setStartMakingComputerChoice({ data: false, fromLocStor: false });
-      /*
-      if (currRound >= MAX_ROUNDS_PER_GAME) {
-        if (last10GameResults.length < MAX_GAMES_LOG) {
-          SetLast10GameResults([...last10GameResults, `{${firstPlayerScore}:${secondPlayerScore}}`]);
-        } else {
-          const newArr = last10GameResults;
-          newArr.shift();
-          SetLast10GameResults([...newArr, `{${firstPlayerScore}:${secondPlayerScore}}`]);
-        }
-        // завершаем игру
-        SetStarted(false);
-      }*/
     }
   }, [secondUserChoice.data]);
 
@@ -312,19 +330,53 @@ export const Game = () => {
   }, [currRound.data]);
 
 
+  useEffect(() => {
+    if (!lostPlayer.fromLocStor) {
+      saveInLocalStorage({ lostPlayer: lostPlayer.data });
+    }
+  }, [lostPlayer.data]);
+
+
   return (
     <div className='game-area'>
-      <div className='score-area'>
-        {firstPlayerScore.data} : {secondPlayerScore.data}
-        <br/>
-        <span className="curr-round">Раунд {currRound.data} из {MAX_ROUNDS_PER_GAME}</span>
+      <div className={classNames('score-area', {
+          'win': roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) && (firstPlayerScore.data > secondPlayerScore.data),
+          'lose': roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) && (firstPlayerScore.data < secondPlayerScore.data),
+          'draw': roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) && (firstPlayerScore.data === secondPlayerScore.data),
+        })}
+      >
+        <div className="score-area-1-block">
+          {firstPlayerScore.data}
+        </div>
+        <div className="score-area-2-block">
+          <span className="curr-round">Round {currRound.data} of {MAX_ROUNDS_PER_GAME}</span>
+          {roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) &&
+            <>
+              <br/>
+              <div className="animate__animated animate__bounceInLeft">
+                Game over. {
+                  roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) && (firstPlayerScore.data === secondPlayerScore.data) ? 'Draw' :
+                  roundOver.data && (currRound.data === MAX_ROUNDS_PER_GAME) && (firstPlayerScore.data > secondPlayerScore.data) ? 'You win' : 'Computer wins'
+                }
+              </div>
+            </>
+          }
+        </div>
+        <div className="score-area-3-block">
+          {secondPlayerScore.data}
+        </div>
       </div>
 
       <div className='choice-btns-area'>
 
         <div>
-          <div>
-            {started.data && firstPlayerTurn.data && 'Your choice:'}
+          <div className="propose-user-choice-block">
+            {
+              started.data && firstPlayerTurn.data &&
+              <div className="animate__animated animate__flash">
+                'Your choice (click image button or press english "r", "s" or "p" on keyboard):'
+              </div>
+            }
           </div>
           <OneUserGameArea
             userCanMakeChoice={started.data && !roundOver.data && firstPlayerTurn.data}
@@ -333,6 +385,8 @@ export const Game = () => {
             }}
             userChoice={firstUserChoice.data}
             playsComputer={false}
+            choiceLose={lostPlayer.data === 1}
+            acceptKeyboardEvents={true}
           />
         </div>
 
@@ -345,6 +399,8 @@ export const Game = () => {
             userChoice={secondUserChoice.data}
             playsComputer={true}
             startMakingComputerChoice={startMakingComputerChoice.data}
+            choiceLose={lostPlayer.data === 2}
+            acceptKeyboardEvents={false}
           />
         </div>
 
@@ -355,31 +411,26 @@ export const Game = () => {
         <div>
 
         <div>
-          <button
-            onClick={() => {
-              resetGame();
-            }}
+          <button disabled={started.data && currRound.data === 1 && !roundOver.data}
+            onClick={resetGame}
+            ref={newGameBtnRef}
+            className="fill new-game-btn"
            >
             New game
           </button>
 
           <button disabled={!started.data || (started.data && !roundOver.data)}
-            onClick={() => {
-              SetFirstUserChoice({ data: null, fromLocStor: false });
-              SetSecondUserChoice({ data: null, fromLocStor: false });
-              SetRoundOver({ data: false, fromLocStor: false });
-              SetFirstPlayerTurn({ data: true, fromLocStor: false });
-              SetCurrRound({ data: currRound.data + 1, fromLocStor: false });
-            }}
+            onClick={continueGame}
+            ref= {continueBtnRef}
+            className="fill"
            >
             Continue
           </button>
         </div>
 
         <div className="prompts-block" id="blink">
-          {!started.data && 'To start, press "New game" button'}
-          {started.data && !roundOver.data && 'Press "New game" to restart'}
-          {started.data && roundOver.data && 'Press "Continue" to continue or "New game" to restart'}
+          {!started.data && 'To start, press "New game" button or english "n" on keyboard'}
+          {started.data && roundOver.data && 'Press "Continue" (or english "c" on keyboard) to continue or "New game" (or english "n" on keyboard) to restart'}
         </div>
 
         <div className="slidecontainer">
@@ -395,13 +446,13 @@ export const Game = () => {
             }}
           />
           { useSounds.data &&
-            <button className="sound-btn"
+            <button className="sound-btn music-btn"
                     onClick={() => SetUseSounds({ data: false, fromLocStor: false })}
             >
             </button>
           }
           { !useSounds.data &&
-            <button className="no-sound-btn"
+            <button className="no-sound-btn music-btn"
                     onClick={() => SetUseSounds({ data: true, fromLocStor: false })}
             >
             </button>
@@ -411,17 +462,15 @@ export const Game = () => {
         </div>
 
         <div className="game-res">
-          {`Last 10 game results: ${last10GameResults.data.join('; ')}`}
-        </div>
-
-        <div className="clear-res">
           <button
+            className="fill clear-btn"
             onClick={() => {
               SetLast10GameResults({ data: [], fromLocStor: false });
             }}
           >
-            Clear last 10 game results
+            &#10006; Clear
           </button>
+          {`Last 10 game results: ${last10GameResults.data.join('; ')}`}
         </div>
 
       </div>

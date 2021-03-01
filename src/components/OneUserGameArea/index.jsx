@@ -11,6 +11,8 @@ export const OneUserGameArea = (props) => {
     userChoice,
     playsComputer,
     startMakingComputerChoice,
+    choiceLose,
+    acceptKeyboardEvents,
   } = props;
 
   const btnsAreaRef = useRef();
@@ -25,7 +27,7 @@ export const OneUserGameArea = (props) => {
     }
 
     btnsAreaRef.current.addEventListener('click', checkIfUserCanClick);
-    
+
     return () => {
       if (btnsAreaRef.current) {
         btnsAreaRef.current.removeEventListener('click', checkIfUserCanClick);
@@ -61,12 +63,16 @@ export const OneUserGameArea = (props) => {
           isBlocked={!userCanMakeChoice}
           btnClicked={() => userMadeChoice(BtnKinds.rock)}
           selected={userChoice === BtnKinds.rock}
+          lose={(userChoice === BtnKinds.rock) && choiceLose}
+          acceptKeyboardEvents={acceptKeyboardEvents}
         />
         <GameChoiceBtn
           btnKind={BtnKinds.scissors}
           isBlocked={!userCanMakeChoice}
           btnClicked={() => userMadeChoice(BtnKinds.scissors)}
           selected={userChoice === BtnKinds.scissors}
+          lose={(userChoice === BtnKinds.scissors) && choiceLose}
+          acceptKeyboardEvents={acceptKeyboardEvents}
         />
       </div>
       <div className="bottom-block">
@@ -75,6 +81,8 @@ export const OneUserGameArea = (props) => {
           isBlocked={!userCanMakeChoice}
           btnClicked={() => userMadeChoice(BtnKinds.paper)}
           selected={userChoice === BtnKinds.paper}
+          lose={(userChoice === BtnKinds.paper) && choiceLose}
+          acceptKeyboardEvents={acceptKeyboardEvents}
         />
       </div>
     </div>

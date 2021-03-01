@@ -16,15 +16,15 @@
 }
 
 .scissors-btn {
-  background: url('../../assets/images/scissors.png') no-repeat center; 
+  background: url('../../assets/images/scissors.png') no-repeat center;
   background-size: auto 80px;
 }
 
 .paper-btn {
-  background: url('../../assets/images/paper.png') no-repeat center; 
+  background: url('../../assets/images/paper.png') no-repeat center;
   background-size: auto 80px;
 }
-  
+
 .blink {
   -webkit-animation: blink 1s linear infinite;
   animation: blink 1s linear infinite;
@@ -38,4 +38,8 @@
 
 .selected-btn {
   border-color: blue;
+}
+
+.lose-btn {
+  border-color: red;
 }

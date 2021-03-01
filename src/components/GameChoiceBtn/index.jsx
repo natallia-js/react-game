@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import './styles.css';
+import '../Game/animate.min.css';
 
 
 export const BtnKinds = Object.freeze({
@@ -16,7 +17,12 @@ export const GameChoiceBtn = (props) => {
     isBlocked,  // можно / нельзя нажимать на кнопку
     btnClicked, // callback, срабатывающий при нажатии на кнопку (без параметров)
     selected,   // true (выбрана пользователем) / false (не выбрана пользователем)
+    lose,       // true (проигравший выбор пользователя) / false (выбор - еще - не проиграл)
+    acceptKeyboardEvents,
   } = props;
+
+  const btnRef = useRef();
+
 
   const getBtnClassNames = () => {
     let str = 'game-choice-btn';
@@ -24,7 +30,11 @@ export const GameChoiceBtn = (props) => {
       str += ' blink';
     }
     if (selected) {
-      str += ' selected-btn';
+      if (!lose) {
+        str += ' selected-btn';
+      } else {
+        str += ' lose-btn';
+      }
     }
     switch (btnKind) {
       case BtnKinds.rock:
@@ -42,15 +52,42 @@ export const GameChoiceBtn = (props) => {
     return str;
   }
 
-  return (
-    <button
-      className={getBtnClassNames()}
-      onClick={() => {
-        if (!isBlocked) {
-          btnClicked();
-        }}
+
+  const onBtnClick = () => {
+    if (!isBlocked) {
+      btnClicked();
+    }
+  };
+
+
+  useEffect(() => {
+    const onKeyPress = (event) => {
+      if (((btnKind === BtnKinds.rock) && (event.key === 'r')) ||
+          ((btnKind === BtnKinds.scissors) && (event.key === "s")) ||
+          ((btnKind === BtnKinds.paper) && (event.key === "p"))) {
+        btnRef.current.click();
       }
-    >
-    </button>
+    };
+
+    if (acceptKeyboardEvents) {
+      window.addEventListener('keydown', onKeyPress);
+    }
+
+    return () => {
+      if (acceptKeyboardEvents) {
+        window.removeEventListener('keydown', onKeyPress);
+      }
+    };
+  }, []);
+
+
+  return (
+    <div className={selected ? 'animate__animated animate__flip' : ''}>
+      <button ref={btnRef}
+        className={getBtnClassNames()}
+        onClick={onBtnClick}
+      >
+      </button>
+    </div>
   );
 };

@@ -11,11 +11,18 @@
   border-bottom: 2px solid white;
   padding: 10px 0;
   border-radius: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.score-area-1-block, .score-area-2-block, .score-area-3-block {
+  flex-grow: 1;
 }
 
 .choice-btns-area {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   width: auto;
   height: auto;
   padding: 5px;
@@ -28,32 +35,38 @@
   vertical-align: middle;
   display: flex;
   flex-direction: column;
+  padding: 5px;
 }
 
 .prompts-block {
   font-size: 0.9rem;
-  width: 350px;
+  width: 400px;
   word-wrap: break-word;
   padding: 10px 0;
 }
 
-.no-sound-btn {
+.propose-user-choice-block {
+  font-size: 0.9rem;
+  width: 160px;
+  word-wrap: break-word;
+}
+
+.music-btn {
   width: 30px;
-  height: 30px;  
-  background: url('../../assets/images/offSound.png') no-repeat center;
-  background-size: auto 20px;
+  height: 30px;
   margin-left: 10px;
-  background-color: #61dafb;
+  border: none;
+  border-radius: 2rem;
+}
+
+.no-sound-btn {
+  background: url('../../assets/images/offSound.png') no-repeat center;
+  background-size: auto 25px;
 }
 
 .sound-btn {
-  width: 30px;
-  height: 30px;  
   background: url('../../assets/images/onSound.png') no-repeat center;
-  background-size: auto 20px;
-  margin-left: 10px;
-  background-color: white;
-  border-radius: 2rem;
+  background-size: auto 25px;
 }
 
 .slidecontainer {
@@ -91,25 +104,41 @@
   font-size: 1rem;
 }
 
-.clear-res {
-  margin-bottom: 10px;
+.new-game-btn {
+  margin-right: 10px;
+}
+
+.clear-btn {
+  margin-right: 10px;
+}
+
+.win {
+  background-color: #1142AA;
+}
+
+.lose {
+  background-color: #C9007A;
+}
+
+.draw {
+  background-color: #6B9B00;
 }
 
 /* blink source: http://shpargalkablog.ru/2013/12/blink-text.html */
 
 #blink {
-  -webkit-animation: blink 3s linear infinite;
-  animation: blink 3s linear infinite;
+  -webkit-animation: blink 2s linear infinite;
+  animation: blink 2s linear infinite;
 }
 @-webkit-keyframes blink {
-  0% { color: rgba(200, 200, 125, 1); }
-  50% { color: rgba(200, 200, 125, 0); }
-  100% { color: rgba(200, 200, 125, 1); }
+  0% { color: rgba(228, 228, 41, 1); }
+  50% { color: rgba(228, 228, 41, 0); }
+  100% { color: rgba(228, 228, 41, 1); }
 }
 @keyframes blink {
-  0% { color: rgba(200, 200, 125, 1); }
-  50% { color: rgba(200, 200, 125, 0); }
-  100% { color: rgba(200, 200, 125, 1); }
+  0% { color: rgba(228, 228, 41, 1); }
+  50% { color: rgba(228, 228, 41, 0); }
+  100% { color: rgba(228, 228, 41, 1); }
 }
 
 /******************************************************************/
