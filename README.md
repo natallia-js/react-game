@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Инструкция по запуску
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Устанавливаем Node.js
+2. Копируем содержимое репозитория react-game
+3. Переходим в каталог скопированного проекта
+4. В терминале запускаем команду npm install (для установки всех необходимых зависимостей)
+5. Далее следуем указанным ниже рекомендациям:
 
 ## Available Scripts
 
