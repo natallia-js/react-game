@@ -1,0 +1,144 @@
+.game-area {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  border: 2px solid #61dafb;
+  border-radius: 2rem;
+}
+
+.score-area {
+  border-bottom: 2px solid white;
+  padding: 10px 0;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.score-area-1-block, .score-area-2-block, .score-area-3-block {
+  flex-grow: 1;
+}
+
+.choice-btns-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: auto;
+  height: auto;
+  padding: 5px;
+}
+
+.game-btns-area {
+  border-top: 2px solid white;
+  border-radius: 2rem;
+  display: table-cell;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.prompts-block {
+  font-size: 0.9rem;
+  width: 400px;
+  word-wrap: break-word;
+  padding: 10px 0;
+}
+
+.propose-user-choice-block {
+  font-size: 0.9rem;
+  width: 160px;
+  word-wrap: break-word;
+}
+
+.music-btn {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 2rem;
+}
+
+.no-sound-btn {
+  background: url('../../assets/images/offSound.png') no-repeat center;
+  background-size: auto 25px;
+}
+
+.sound-btn {
+  background: url('../../assets/images/onSound.png') no-repeat center;
+  background-size: auto 25px;
+}
+
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.game-res {
+  font-size: 0.9rem;
+  width: 380px;
+}
+
+.curr-round {
+  font-size: 1rem;
+}
+
+.new-game-btn {
+  margin-right: 10px;
+}
+
+.clear-btn {
+  margin-right: 10px;
+}
+
+.win {
+  background-color: #1142AA;
+}
+
+.lose {
+  background-color: #C9007A;
+}
+
+.draw {
+  background-color: #6B9B00;
+}
+
+/* blink source: http://shpargalkablog.ru/2013/12/blink-text.html */
+
+#blink {
+  -webkit-animation: blink 2s linear infinite;
+  animation: blink 2s linear infinite;
+}
+@-webkit-keyframes blink {
+  0% { color: rgba(228, 228, 41, 1); }
+  50% { color: rgba(228, 228, 41, 0); }
+  100% { color: rgba(228, 228, 41, 1); }
+}
+@keyframes blink {
+  0% { color: rgba(228, 228, 41, 1); }
+  50% { color: rgba(228, 228, 41, 0); }
+  100% { color: rgba(228, 228, 41, 1); }
+}
+
+/******************************************************************/

@@ -1,10 +1,23 @@
+:root {
+  --base-bg-color: #282c34;
+  --base-font-color: #61dafb;
+  --footer-color: #2A4580;
+  --btn-hover-color: #2A4580;
+  --btn-disabled-color: #999999;
+}
+
 .App {
+  display: table-cell;
+  vertical-align: middle;
   text-align: center;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
   pointer-events: none;
+  display: inline;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,18 +27,12 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--base-bg-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +42,68 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Game-title-block {
+  display: table;
+  color: var(--base-font-color);
+}
+
+.game-logo {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.game-title {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.5rem;
+}
+
+footer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: 2px solid var(--footer-color);
+  font-size: 0.8rem;
+  align-items: flex-start;
+  background-color: var(--footer-color);
+  border-radius: 2rem;
+}
+
+#school-logo {
+  height: 4vmin;
+  pointer-events: none;
+  display: inline;
+  margin-right: 10px;
+}
+
+.fill {
+  --hover: var(--btn-hover-color);
+}
+
+.fill:hover,
+.fill:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
+  border-color: var(--hover);
+  color: #fff;
+}
+
+.fill {
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  color: var(--color);
+  transition: 0.25s;
+}
+
+.fill:disabled,
+.fill[disabled]{
+  border-color: var(--btn-disabled-color);
+  color: var(--btn-disabled-color);
+}
+
+.full-scr-btn {
+  margin-top: 10px;
 }
